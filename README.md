@@ -1,6 +1,12 @@
 # marocchino/sticky-pull-request-comment
 
-Hardened GitHub Action by [Chainguard](https://www.chainguard.dev).
+Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at [https://github.com/marocchino/sticky-pull-request-comment](https://github.com/marocchino/sticky-pull-request-comment).
+
+## Versions
+
+| Version | Tag | Upstream commit |
+|---------|-----|-----------------|
+| v3.0.2 | [`v3.0.2`](https://github.com/chainguard-actions/sticky-pull-request-comment/tree/v3.0.2) | — |
 
 ## Privacy
 
