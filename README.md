@@ -1,5 +1,7 @@
 # marocchino/sticky-pull-request-comment
 
+create comment on pull request, if exists update that comment.
+
 Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at [https://github.com/marocchino/sticky-pull-request-comment](https://github.com/marocchino/sticky-pull-request-comment).
 
 ## Versions
