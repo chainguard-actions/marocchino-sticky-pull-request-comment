@@ -2,5 +2,6 @@
   "owner": "marocchino",
   "name": "sticky-pull-request-comment",
   "visibility": "internal",
-  "description": "create comment on pull request, if exists update that comment."
+  "description": "create comment on pull request, if exists update that comment.",
+  "block_publish": false
 }

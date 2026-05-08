@@ -1,4 +1,6 @@
 {
-  "upstream": "marocchino/sticky-pull-request-comment",
-  "version": "v3.0.2"
+  "owner": "marocchino",
+  "repo": "sticky-pull-request-comment",
+  "version": "",
+  "url": "https://github.com/marocchino/sticky-pull-request-comment"
 }
