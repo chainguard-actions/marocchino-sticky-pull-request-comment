@@ -8,7 +8,7 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 
 | Version | Tag | Upstream commit |
 |---------|-----|-----------------|
-| v3.0.2 | [`v3.0.2`](https://github.com/chainguard-actions/sticky-pull-request-comment/tree/v3.0.2) | — |
+| v3.0.2 | [`v3.0.2`](https://github.com/chainguard-actions/marocchino--sticky-pull-request-comment/tree/v3.0.2) | — |
 
 ## Privacy
 
