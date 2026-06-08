@@ -1,23 +1,22 @@
-name: Test basic message input
+name: Test number input
 on:
   workflow_dispatch:
 jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      GITHUB_EVENT_NAME: pull_request
-      GITHUB_REF: refs/pull/1/merge
-      GITHUB_HEAD_REF: feature-branch
-      GITHUB_BASE_REF: main
+      GITHUB_EVENT_NAME: push
+      GITHUB_REF: refs/heads/main
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - id: action
         uses: .
         with:
-          message: "Hello from sticky comment test"
+          message: "Comment via push event with PR number"
+          number: "42"
           GITHUB_TOKEN: ${{ github.token }}
         continue-on-error: true
-      - name: Assert action ran (may fail due to no real PR)
+      - name: Assert action ran with number input
         run: |
           echo "outcome: ${{ steps.action.outcome }}"
-          echo "PASS: action step executed with message input"
+          echo "PASS: action step executed with number input"

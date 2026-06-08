@@ -1,4 +1,4 @@
-name: Test basic message input
+name: Test path input
 on:
   workflow_dispatch:
 jobs:
@@ -11,13 +11,16 @@ jobs:
       GITHUB_BASE_REF: main
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Create comment file
+        run: |
+          echo "Hello from file-based sticky comment" > /tmp/comment.md
       - id: action
         uses: .
         with:
-          message: "Hello from sticky comment test"
+          path: /tmp/comment.md
           GITHUB_TOKEN: ${{ github.token }}
         continue-on-error: true
-      - name: Assert action ran (may fail due to no real PR)
+      - name: Assert action ran with path input
         run: |
           echo "outcome: ${{ steps.action.outcome }}"
-          echo "PASS: action step executed with message input"
+          echo "PASS: action step executed with path input"
