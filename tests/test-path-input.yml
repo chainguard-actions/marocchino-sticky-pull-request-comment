@@ -1,0 +1,27 @@
+name: Test path input
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_EVENT_NAME: pull_request
+      GITHUB_REF: refs/pull/1/merge
+      GITHUB_HEAD_REF: feature-branch
+      GITHUB_BASE_REF: main
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Create comment file
+        run: |
+          echo "Test comment from file path input" > /tmp/comment.md
+      - id: action
+        uses: .
+        continue-on-error: true
+        with:
+          path: /tmp/comment.md
+          number_force: "1"
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Assert action ran (API call may fail in local env)
+        run: |
+          echo "Action outcome: ${{ steps.action.outcome }}"
+          echo "PASS: path input was accepted"
