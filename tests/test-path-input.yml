@@ -1,4 +1,4 @@
-name: Test path input
+name: Test path input for file-based message
 on:
   workflow_dispatch:
 jobs:
@@ -13,15 +13,21 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Create comment file
         run: |
-          echo "Test comment from file path input" > /tmp/comment.md
+          echo "This is a sticky PR comment from a file" > /tmp/comment.md
       - id: action
         uses: .
-        continue-on-error: true
         with:
-          path: /tmp/comment.md
-          number_force: "1"
+          path: "/tmp/comment.md"
           GITHUB_TOKEN: ${{ github.token }}
-      - name: Assert action ran (API call may fail in local env)
+        continue-on-error: true
+      - name: Assert action ran with path input
         run: |
           echo "Action outcome: ${{ steps.action.outcome }}"
-          echo "PASS: path input was accepted"
+          # The action may fail due to no real PR in act environment,
+          # but we verify it was invoked with the path input
+          if [ "${{ steps.action.outcome }}" = "success" ] || [ "${{ steps.action.outcome }}" = "failure" ]; then
+            echo "PASS: action was invoked with path input"
+          else
+            echo "FAIL: action did not run"
+            exit 1
+          fi

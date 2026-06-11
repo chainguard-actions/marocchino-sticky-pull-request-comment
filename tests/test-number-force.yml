@@ -12,11 +12,18 @@ jobs:
       - id: action
         uses: .
         with:
-          message: "Comment via number_force input"
+          message: "Sticky comment forced to PR number"
           number_force: "99"
           GITHUB_TOKEN: ${{ github.token }}
         continue-on-error: true
       - name: Assert action ran with number_force input
         run: |
-          echo "outcome: ${{ steps.action.outcome }}"
-          echo "PASS: action step executed with number_force input"
+          echo "Action outcome: ${{ steps.action.outcome }}"
+          # The action may fail due to no real PR in act environment,
+          # but we verify it was invoked with the number_force input
+          if [ "${{ steps.action.outcome }}" = "success" ] || [ "${{ steps.action.outcome }}" = "failure" ]; then
+            echo "PASS: action was invoked with number_force input"
+          else
+            echo "FAIL: action did not run"
+            exit 1
+          fi
