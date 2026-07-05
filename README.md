@@ -10,6 +10,7 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 |---------|-----|-----------------|
 | v3.0.2 | [`v3.0.2`](https://github.com/chainguard-actions/marocchino-sticky-pull-request-comment/tree/v3.0.2) | — |
 | v3.0.4 | [`v3.0.4`](https://github.com/chainguard-actions/marocchino-sticky-pull-request-comment/tree/v3.0.4) | [`0ea0beb`](https://github.com/marocchino/sticky-pull-request-comment/commit/0ea0beb66eb9baf113663a64ec522f60e49231c0) |
+| v3.0.5 | [`v3.0.5`](https://github.com/chainguard-actions/marocchino-sticky-pull-request-comment/tree/v3.0.5) | [`5770ad5`](https://github.com/marocchino/sticky-pull-request-comment/commit/5770ad5eb8f42dd2c4f34da00c94c5381e49af88) |
 
 ## Privacy
 
