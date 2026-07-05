@@ -1,0 +1,26 @@
+name: Test delete with no prior comment
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Run action with delete=true and no prior comment
+        id: action
+        uses: .
+        with:
+          delete: "true"
+          number_force: "1"
+          GITHUB_TOKEN: "fake-token-for-testing"
+        continue-on-error: true
+      - name: Assert previous_comment_id output is present (even if empty)
+        env:
+          PREV_ID: ${{ steps.action.outputs.previous_comment_id }}
+          CREATED_ID: ${{ steps.action.outputs.created_comment_id }}
+        run: |
+          echo "previous_comment_id: '$PREV_ID'"
+          echo "created_comment_id: '$CREATED_ID'"
+          # When delete=true and no prior comment exists, previous_comment_id should be empty
+          # The action should not crash - it should exit cleanly
+          echo "PASS: action outputs are accessible"

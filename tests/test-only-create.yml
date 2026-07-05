@@ -1,0 +1,29 @@
+name: Test only_create with ignore_empty
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Run action with only_create and ignore_empty
+        id: action
+        uses: .
+        with:
+          only_create: "true"
+          ignore_empty: "true"
+          number_force: "1"
+          GITHUB_TOKEN: "fake-token-for-testing"
+        continue-on-error: true
+      - name: Assert action handled only_create with no message gracefully
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+        run: |
+          echo "outcome: $OUTCOME"
+          # With ignore_empty=true and no message, the action should succeed
+          # (it skips posting when there's nothing to post, regardless of only_create)
+          if [ "$OUTCOME" = "failure" ]; then
+            echo "FAIL: action failed unexpectedly with only_create=true and ignore_empty=true"
+            exit 1
+          fi
+          echo "PASS: action handled only_create with empty message gracefully"
