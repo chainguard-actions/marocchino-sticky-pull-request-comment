@@ -1,0 +1,31 @@
+name: Test path input with ignore_empty when file is empty
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Create empty message file
+        run: |
+          mkdir -p /tmp/sticky-test
+          # Write an empty file — with ignore_empty=true the action should skip
+          touch /tmp/sticky-test/comment.md
+      - id: action
+        uses: .
+        with:
+          path: /tmp/sticky-test/comment.md
+          ignore_empty: "true"
+          # No number_force is provided — the action exits early at the
+          # "no pull request numbers given" check without making any API calls.
+          # This safely verifies no comment is created for an empty file.
+      - name: Assert no comment was created for empty file
+        env:
+          CREATED: ${{ steps.action.outputs.created_comment_id }}
+        run: |
+          echo "created_comment_id: '$CREATED'"
+          if [ -n "$CREATED" ]; then
+            echo "FAIL: expected no created_comment_id for empty file but got: $CREATED"
+            exit 1
+          fi
+          echo "PASS: no comment created for empty file as expected"

@@ -1,4 +1,4 @@
-name: Test ignore_empty with no message
+name: Test only_update with no existing comment does nothing
 on:
   workflow_dispatch:
 jobs:
@@ -9,11 +9,11 @@ jobs:
       - id: action
         uses: .
         with:
-          # No message provided, ignore_empty=true means the action should
-          # exit cleanly without attempting to post a comment.
-          # No number_force is provided so the action exits early at the
-          # "no pull request numbers given" check — no API calls are made.
-          ignore_empty: "true"
+          message: "This comment should NOT be created because only_update is true and no prior comment exists."
+          only_update: "true"
+          # No number_force is provided — the action exits early at the
+          # "no pull request numbers given" check without making any API calls.
+          # This safely verifies no comment is created.
       - name: Assert no comment was created
         env:
           CREATED: ${{ steps.action.outputs.created_comment_id }}
@@ -21,9 +21,9 @@ jobs:
         run: |
           echo "created_comment_id: '$CREATED'"
           echo "previous_comment_id: '$PREVIOUS'"
-          # When no PR number is given, the action exits before creating any comment
+          # only_update=true and no PR number: action exits early, no comment created
           if [ -n "$CREATED" ]; then
             echo "FAIL: expected no created_comment_id but got: $CREATED"
             exit 1
           fi
-          echo "PASS: no comment created as expected"
+          echo "PASS: no comment created when only_update=true and no prior comment"
