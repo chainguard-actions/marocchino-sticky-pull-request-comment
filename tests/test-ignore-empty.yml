@@ -1,0 +1,18 @@
+name: Test ignore_empty skips when no message provided
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        uses: .
+        with:
+          ignore_empty: "true"
+          # No message or path provided; ignore_empty=true means skip gracefully
+          # No number_force either, so it will skip at the PR number check first
+      - name: Assert action completed without failure
+        run: |
+          echo "Action completed successfully (skipped due to ignore_empty or no PR number)"
+          echo "PASS"

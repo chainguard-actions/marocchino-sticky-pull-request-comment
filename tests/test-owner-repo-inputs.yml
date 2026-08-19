@@ -1,4 +1,4 @@
-name: Test number input (PR number for push event)
+name: Test owner and repo inputs (cross-repo targeting)
 on:
   workflow_dispatch:
 jobs:
@@ -9,8 +9,10 @@ jobs:
       - id: action
         uses: .
         with:
-          number: "9999"
-          message: "Test comment via number input"
+          owner: "marocchino"
+          repo: "sticky-pull-request-comment"
+          number: "1"
+          message: "Test comment via owner/repo inputs"
           only_update: "true"
           ignore_empty: "true"
         continue-on-error: true
@@ -19,11 +21,11 @@ jobs:
           OUTCOME: ${{ steps.action.outcome }}
         run: |
           echo "outcome: $OUTCOME"
-          # The action may skip (success) or fail because PR 9999 doesn't exist.
-          # Either way, the input was exercised. We accept both success and failure
-          # as long as the step was reached (not a setup/parse error).
+          # The action may skip (success) or fail because the token may not have
+          # write access to the target repo, or the PR may not exist.
+          # Either way, the owner and repo inputs were exercised.
           if [ "$OUTCOME" = "success" ] || [ "$OUTCOME" = "failure" ]; then
-            echo "PASS: action ran with number input (outcome=$OUTCOME)"
+            echo "PASS: action ran with owner/repo inputs (outcome=$OUTCOME)"
           else
             echo "FAIL: unexpected outcome: $OUTCOME"
             exit 1

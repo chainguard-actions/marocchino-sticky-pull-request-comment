@@ -1,4 +1,4 @@
-name: Test basic message input
+name: Test delete mode
 on:
   workflow_dispatch:
 jobs:
@@ -16,17 +16,16 @@ jobs:
         continue-on-error: true
         with:
           GITHUB_TOKEN: fake-token-for-testing
-          message: "Hello from sticky comment test"
+          delete: "true"
           number_force: "1"
-      - name: Assert action ran (API failure is expected without real token)
+      - name: Assert action ran in delete mode
         env:
           OUTCOME: ${{ steps.action.outcome }}
         run: |
           echo "outcome: $OUTCOME"
-          # The action is expected to either succeed or fail at the API call
-          # but it should not be skipped — it must have run
+          # The action should run (not be skipped) — API failure is expected without real token
           if [ "$OUTCOME" = "skipped" ]; then
             echo "FAIL: action was skipped, expected it to run"
             exit 1
           fi
-          echo "PASS: action ran (outcome=$OUTCOME)"
+          echo "PASS: action ran in delete mode (outcome=$OUTCOME)"

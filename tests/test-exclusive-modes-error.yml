@@ -1,0 +1,29 @@
+name: Test exclusive modes validation error
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        uses: .
+        # Setting both delete and recreate to true should fail with a validation error
+        # We use number_force=1 to get past the PR-number check so validation runs.
+        # The action calls core.setFailed() which sets exit code 1.
+        with:
+          delete: "true"
+          recreate: "true"
+          number_force: "1"
+          message: "test"
+        continue-on-error: true
+      - name: Assert action failed with exclusive modes error
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+        run: |
+          echo "outcome: $OUTCOME"
+          if [ "$OUTCOME" != "failure" ]; then
+            echo "FAIL: expected action to fail due to exclusive modes, but got outcome=$OUTCOME"
+            exit 1
+          fi
+          echo "PASS: action correctly failed when delete and recreate were both set"
