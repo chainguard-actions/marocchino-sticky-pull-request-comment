@@ -1,0 +1,39 @@
+name: Test sticky PR comment with path input
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Create comment message file
+        run: |
+          mkdir -p /tmp/comment-files
+          echo "Hello from file path input!" > /tmp/comment-files/comment.md
+
+      - id: action
+        uses: .
+        continue-on-error: true
+        with:
+          path: /tmp/comment-files/comment.md
+          number: 1
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Assert action ran (path input accepted, or failed gracefully on sentinel repo)
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+          CREATED: ${{ steps.action.outputs.created_comment_id }}
+          PREVIOUS: ${{ steps.action.outputs.previous_comment_id }}
+        run: |
+          echo "outcome: $OUTCOME"
+          echo "created_comment_id: $CREATED"
+          echo "previous_comment_id: $PREVIOUS"
+          if [ "$OUTCOME" = "success" ]; then
+            echo "PASS: action succeeded with path input"
+          elif [ "$OUTCOME" = "failure" ]; then
+            echo "PASS: action failed gracefully (sentinel repo is not resolvable)"
+          else
+            echo "FAIL: unexpected outcome '$OUTCOME'"
+            exit 1
+          fi

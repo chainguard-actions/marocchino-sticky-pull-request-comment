@@ -1,0 +1,50 @@
+name: Test
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - run: npm ci
+      - run: |
+          set -o pipefail
+          mkdir -p ./pr
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          npm run all > /tmp/npm_all_output.txt 2>&1 || true  # proceed even if npm run all fails
+          echo "all_result<<$EOF" >> "$GITHUB_ENV"
+          cat /tmp/npm_all_output.txt >> "$GITHUB_ENV"
+          echo >> "$GITHUB_ENV"  # npm run all doesn't necessarily produce a newline
+          echo "$EOF" >> "$GITHUB_ENV"
+        id: all
+      - uses: ./
+        if: ${{ github.event_name == 'pull_request' }}
+        with:
+          header: All
+          message: |
+            <details open>
+            <summary>Output of npm run all</summary>
+
+            ```shell
+            ${{ env.all_result }}
+            ```
+            </details>
+      - uses: ./
+        if: ${{ github.event_name == 'pull_request' }}
+        with:
+          header: All
+          append: true
+          hide_details: true
+          message: |
+            The build is over.
+      - name: Lint
+        run: npm run lint
+      - name: Format Check
+        run: npm run format-check
