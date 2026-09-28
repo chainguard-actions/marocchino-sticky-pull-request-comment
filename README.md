@@ -8,6 +8,7 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 
 | Version | Tag | Upstream commit |
 |---------|-----|-----------------|
+| v2.9.2 | [`v2.9.2`](https://github.com/chainguard-actions/marocchino-sticky-pull-request-comment/tree/v2.9.2) | [`67d0dec`](https://github.com/marocchino/sticky-pull-request-comment/commit/67d0dec7b07ed060a405f9b2a64b8ab319fdd7db) |
 | v3.0.2 | [`v3.0.2`](https://github.com/chainguard-actions/marocchino-sticky-pull-request-comment/tree/v3.0.2) | [`70d2764`](https://github.com/marocchino/sticky-pull-request-comment/commit/70d2764d1a7d5d9560b100cbea0077fc8f633987) |
 | v3.0.4 | [`v3.0.4`](https://github.com/chainguard-actions/marocchino-sticky-pull-request-comment/tree/v3.0.4) | [`0ea0beb`](https://github.com/marocchino/sticky-pull-request-comment/commit/0ea0beb66eb9baf113663a64ec522f60e49231c0) |
 | v3.0.5 | [`v3.0.5`](https://github.com/chainguard-actions/marocchino-sticky-pull-request-comment/tree/v3.0.5) | [`5770ad5`](https://github.com/marocchino/sticky-pull-request-comment/commit/5770ad5eb8f42dd2c4f34da00c94c5381e49af88) |
