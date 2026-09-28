@@ -1,0 +1,46 @@
+{
+  "name": "sticky-pull-request-comment",
+  "version": "2.1.1",
+  "private": true,
+  "description": "Create comment on pull request, if exists update that comment.",
+  "main": "lib/main.js",
+  "scripts": {
+    "build": "tsc",
+    "format": "biome format --write .",
+    "format-check": "biome format --write .",
+    "lint": "biome check .",
+    "lint:fix": "biome check --apply .",
+    "package": "ncc build --source-map --license licenses.txt",
+    "test": "jest",
+    "build_test": "tsc && jest",
+    "all": "yarn build && yarn format && yarn lint && yarn package && yarn test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/actions/typescript-action.git"
+  },
+  "keywords": [
+    "actions",
+    "node",
+    "setup"
+  ],
+  "author": "marocchino",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.11.1",
+    "@actions/github": "^6.0.0",
+    "@actions/glob": "^0.5.0",
+    "@octokit/graphql-schema": "^15.26.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.14.0",
+    "@vercel/ncc": "^0.38.3",
+    "jest": "^29.7.0",
+    "jest-circus": "^29.7.0",
+    "js-yaml": "^4.1.0",
+    "ts-jest": "^29.3.1",
+    "typescript": "^5.8.3"
+  }
+}
